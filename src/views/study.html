@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proffy | Dar aulas aulas online nunca foi tão fácil</title>
+    <title>Proffy | Encontre os melhores professores</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
 
@@ -54,30 +54,34 @@
         </header>
 
         <main>
-            {% for proffy in proffys %}
-                <article class="teacher-item">
-                    <header>
-                    <img src="{{proffy.avatar}}" alt="Usuário {{proffy.name}}" />
-                    <div>
-                        <strong>{{proffy.name}}</strong>
-                        <span>{{proffy.subject}}</span>
-                    </div>
-                    </header>
+            {% if proffys.length == 0 %}
+                <p class="no-results">Nenhum professor encontrado com sua pesquisa.</p>
+            {% else %}
+                {% for proffy in proffys %}
+                    <article class="teacher-item">
+                        <header>
+                        <img src="{{proffy.avatar}}" alt="Usuário {{proffy.name}}" />
+                        <div>
+                            <strong>{{proffy.name}}</strong>
+                            <span>{{proffy.subject}}</span>
+                        </div>
+                        </header>
 
-                    <p>{{proffy.bio}}</p>
+                        <p>{{proffy.bio}}</p>
 
-                    <footer>
-                    <p>
-                        Preço/hora
-                        <strong>R$ {{proffy.cost}}</strong>
-                    </p>
-                    <a class="button" href="https://api.whatsapp.com/send?phone=55{{proffy.whatsapp}}&text=Olá, tenho interesse na sua aula de {{proffy.subject}} proffy {{proffy.name}}&source&data&app_absent&lang=pt_br" target="_blank" rel="noreferrer noopener">
-                        <img src='/icons/whatsapp.svg' alt="Entrar em contato por Whatsapp" />
-                        Entrar em contato
-                    </a>
-                    </footer>
-                </article>
-            {% endfor %}
+                        <footer>
+                        <p>
+                            Preço/hora
+                            <strong>{{proffy.cost}}</strong>
+                        </p>
+                        <a class="button" href="https://api.whatsapp.com/send?phone={{proffy.whatsapp}}&text=Olá, tenho interesse na sua aula de {{proffy.subject}} proffy {{proffy.name}}&source&data&app_absent&lang=pt_br" target="_blank" rel="noreferrer noopener">
+                            <img src='/icons/whatsapp.svg' alt="Entrar em contato por Whatsapp" />
+                            Entrar em contato
+                        </a>
+                        </footer>
+                    </article>
+                {% endfor %}
+            {% endif %}
         </main>
     </div>
 </body>

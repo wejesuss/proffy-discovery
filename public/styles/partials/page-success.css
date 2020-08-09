@@ -1,0 +1,137 @@
+#page-landing {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    background: var(--color-primary);
+}
+
+#page-landing #container {
+    height: 100vh;
+    color: var(--color-text-in-primary);
+    background-image: url("/success-background.svg");
+}
+
+.logo-container img {
+    height: 8rem;
+}
+
+.logo-container {
+    text-align: center;
+    margin: 3.2rem 0;
+}
+
+.success-container {
+    width: 90vw;
+    height: 70vh;
+    max-height: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8rem;
+}
+
+.success-information h1 {
+    font-family: "Archivo";
+    font-size: 5.4rem;
+    line-height: 4.2rem;
+    text-align: center;
+    margin: 4rem 0 2.4rem;
+    color: var(--color-title-in-primary);
+}
+
+.success-information p {
+    font-family: "Poppins";
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    color: var(--color-text-in-primary);
+    text-align: center;
+}
+
+.success-container a#goToStudy {
+    font-family: "Archivo";
+    font-weight: 600;
+    background: var(--color-secondary);
+    color: var(--color-button-text);
+    width: 20rem;
+    height: 5.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    text-align: center;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.success-container a#goToStudy:hover {
+    background: var(--color-secondary-dark);
+}
+
+@media (max-width: 800px) {
+    :root {
+        font-size: 40%;
+    }
+}
+
+@media (min-width: 700px) {
+    #page-landing {
+        width: auto;
+        align-items: baseline;
+    }
+
+    .success-container {
+        width: auto;
+    }
+}
+
+@media (min-width: 1000px) {
+    #page-landing {
+        width: 100vw;
+        align-items: baseline;
+    }
+
+    #page-landing #container {
+        max-width: 1200px;
+    }
+
+    .logo-container {
+        text-align: center;
+    }
+
+    .logo-container img {
+        height: 100%;
+    }
+
+    .success-information p {
+        font-size: 2.4rem;
+        line-height: 3.2rem;
+    }
+
+    .success-container a#goToStudy {
+        width: 28rem;
+        height: 6.4rem;
+        margin: 1.6rem 0px;
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    #page-landing #container {
+        max-width: 1600px;
+    }
+}

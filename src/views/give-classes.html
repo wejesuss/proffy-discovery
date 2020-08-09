@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proffy | Encontre os melhores professores</title>
+    <title>Proffy | Dar aulas aulas online nunca foi tão fácil</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
 
@@ -26,7 +26,7 @@
         </header>
 
         <main>
-            <form action="" id="create-class">
+            <form action="/give-classes" id="create-class" method="POST">
                 <fieldset>
                     <legend>Seu dados</legend>
 
@@ -42,7 +42,7 @@
 
                     <div class="input-block">
                         <label for="whatsapp">Whatsapp <small>(somente números)</small></label>
-                        <input type="number" id="whatsapp" name="whatsapp" required/>
+                        <input type="text" id="whatsapp" maxlength="18" name="whatsapp" required/>
                     </div>
 
                     <div class="textarea-block">
@@ -66,7 +66,7 @@
 
                     <div class="input-block">
                         <label for="cost">Custo da sua hora/aula <small>(R$)</small></label>
-                        <input name="cost" type="number" id="cost" max="10000" required/>
+                        <input name="cost" type="text" id="cost" required/>
                     </div>
                 </fieldset>
 
@@ -108,6 +108,7 @@
         </main>
     </div>
 
+    <script src="scripts/form.js"></script>
     <script src="scripts/removeFields.js"></script>
     <script src="scripts/addFields.js"></script>
 </body>

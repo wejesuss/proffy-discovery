@@ -37,6 +37,12 @@ fieldset + fieldset {
     font: 1.6rem Archivo;
 }
 
+.input-block input.error,
+.select-block select.error,
+.textarea-block textarea.error {
+    border-color: var(--color-input-error);
+}
+
 .textarea-block textarea {
     padding: 1.2rem 1.6rem;
     height: 16rem;
@@ -54,6 +60,10 @@ fieldset + fieldset {
     left: 1.6rem;
     right: 1.6rem;
     bottom: 0;
+}
+
+.textarea-block:focus-within::after {
+    bottom: 8px;
 }
 
 label small {

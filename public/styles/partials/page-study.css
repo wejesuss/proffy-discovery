@@ -42,6 +42,12 @@
     width: 90%;
 }
 
+#page-teacher-list main p.no-results {
+    max-width: 30rem;
+    margin: 50px auto;
+    text-align: center;
+}
+
 @media (min-width: 700px) {
     #page-teacher-list #container {
         max-width: 100vw;
