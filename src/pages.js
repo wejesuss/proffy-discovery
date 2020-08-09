@@ -1,8 +1,8 @@
-const Intl = require('intl');
 const Database = require('./database/db');
 const {
-  convertHoursToMinutes, getSubject, getWeekDay, subjects, weekdays, clearCostOrWhatsapp,
+  convertHoursToMinutes, subjects, weekdays, clearCostOrWhatsapp, scapeFields,
 } = require('./utils');
+const { getAllProffys, getProffys } = require('./database/getAllProffys');
 const createProffys = require('./database/createProffys');
 
 module.exports = {
@@ -11,73 +11,20 @@ module.exports = {
   // eslint-disable-next-line consistent-return
   study: async (req, res) => {
     const filters = req.query;
-    const db = await Database;
 
     if (!filters.weekday || !filters.time || !filters.subject) {
-      return res.render('study.html', { filters, subjects, weekdays });
+      const proffys = await getAllProffys();
+      return res.render('study.html', {
+        filters, subjects, weekdays, proffys,
+      });
     }
 
     const timeInMinutes = convertHoursToMinutes(filters.time);
-
-    const query = `
-            SELECT classes.*, proffys.*
-            FROM classes
-            JOIN proffys ON (classes.proffy_id = proffys.id)
-            WHERE EXISTS (
-                SELECT class_schedules.*
-                FROM class_schedules
-                WHERE class_schedules.class_id = classes.id
-                AND class_schedules.weekday = "${filters.weekday}"
-                AND (class_schedules.time_to > class_schedules.time_from
-                        AND class_schedules.time_from <= "${timeInMinutes}"
-                        AND class_schedules.time_to > "${timeInMinutes}"
-                    OR (class_schedules.time_to < class_schedules.time_from
-                        AND class_schedules.time_from <= "${timeInMinutes}"
-                    )
-                )
-            )
-            AND classes.subject = "${filters.subject}"
-        `;
-
     try {
-      const proffys = await db.all(query);
-      const timeFromAndTimeToPromise = proffys.map(async (proffy) => {
-        const schedule = await db.all(`
-                    SELECT class_schedules.*
-                    FROM class_schedules
-                    JOIN classes ON (class_schedules.class_id = classes.id)
-                    WHERE classes.id = ${proffy.id}
-                    AND (class_schedules.time_to > class_schedules.time_from
-                            AND class_schedules.time_from <= "${timeInMinutes}"
-                            AND class_schedules.time_to > "${timeInMinutes}"
-                        OR (class_schedules.time_to < class_schedules.time_from
-                            AND class_schedules.time_from <= "${timeInMinutes}"
-                        )
-                    )
-                    AND class_schedules.weekday = "${filters.weekday}"
-                `);
-
-        return schedule[0];
-      });
-
-      const timeFromAndTimeTo = await Promise.all(timeFromAndTimeToPromise);
-      const newProffys = proffys.reduce((newArrayOfProffys, proffy, index) => {
-        newArrayOfProffys[index] = {
-          ...proffy,
-          ...newArrayOfProffys[index],
-          weekday: getWeekDay(newArrayOfProffys[index].weekday),
-          subject: getSubject(proffy.subject),
-          cost: Intl.NumberFormat('pt-BR', {
-            currency: 'BRL',
-            style: 'currency',
-          }).format(proffy.cost),
-        };
-
-        return newArrayOfProffys;
-      }, timeFromAndTimeTo);
+      const proffys = await getProffys({ filters, timeInMinutes });
 
       return res.render('study.html', {
-        proffys: newProffys,
+        proffys,
         subjects,
         weekdays,
         filters,
@@ -101,7 +48,7 @@ module.exports = {
           name: data.name,
           avatar: data.avatar,
           whatsapp: clearCostOrWhatsapp(undefined, data.whatsapp),
-          bio: data.bio.replace(/(\r\n)?(\n)/g, '<br>'),
+          bio: scapeFields(data.bio.replace(/(\r\n)?(\n)/g, '<br>')),
         };
 
         const classValue = {

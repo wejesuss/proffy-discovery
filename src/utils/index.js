@@ -47,14 +47,42 @@ function getSubject(subject = 1) {
 
 function clearCostOrWhatsapp(cost, whatsapp) {
   if (cost) {
-    return Number(cost.replace(/\D/g, '')) / 100;
+    cost = Number(cost.replace(/\D/g, '')) / 100;
+    return cost;
   }
 
   if (whatsapp) {
-    return whatsapp.replace(/\D/g, '');
+    whatsapp = whatsapp.replace(/\D/g, '');
+    return whatsapp;
   }
 
   throw new Error('cost and whatsapp was not informed');
+}
+
+function scapeFields(fieldValue) {
+  const doubleQuotesFrom = /["]/g;
+  const doubleQuotesTo = '%&--&%';
+  const commaFrom = /[,]/g;
+  const commaTo = '%@--@%';
+  const semiColonFrom = /[;]/g;
+  const semiColonTo = '%#--#%';
+
+  return fieldValue.replace(doubleQuotesFrom, doubleQuotesTo)
+    .replace(commaFrom, commaTo)
+    .replace(semiColonFrom, semiColonTo);
+}
+
+function revertScapedFields(fieldValue) {
+  const doubleQuotesTo = '"';
+  const doubleQuotesFrom = /(%&--&%)/g;
+  const commaTo = ',';
+  const commaFrom = /(%@--@%)/g;
+  const semiColonTo = ';';
+  const semiColonFrom = /(%#--#%)/g;
+
+  return fieldValue.replace(doubleQuotesFrom, doubleQuotesTo)
+    .replace(commaFrom, commaTo)
+    .replace(semiColonFrom, semiColonTo);
 }
 
 module.exports = {
@@ -64,4 +92,6 @@ module.exports = {
   weekdays,
   subjects,
   clearCostOrWhatsapp,
+  scapeFields,
+  revertScapedFields,
 };
